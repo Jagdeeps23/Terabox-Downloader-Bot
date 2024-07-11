@@ -36,7 +36,6 @@ if len(dump_id) == 0:
     exit(1)
 else:
     dump_id = int(dump_id)
-
 fsub_id = os.environ.get('FSUB_ID', '')
 if len(fsub_id) == 0:
     logging.error("FSUB_ID variable is missing! Exiting now")
@@ -48,7 +47,7 @@ app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 @app.on_message(filters.command("start"))
 async def start_command(client, message):
-    sticker_message = await message.reply_sticker("CAACAgQAAxkBAAIhsmaOc5Or0ey3SZHBkS_510kCdo7gAAL1EwACk7MpUq5xClQqo06DNAQ")
+    sticker_message = await message.reply_sticker("CAACAgQAAxkBAAIiGmaPvON2ncXNt0B6hmECSTNBLyVVAAKQFQADeZFRkbHgbAtf1cI0BA")
     await asyncio.sleep(2)
     await sticker_message.delete()
     user_mention = message.from_user.mention
@@ -70,7 +69,7 @@ async def is_user_member(client, user_id):
         logging.error(f"Error checking membership status for user {user_id}: {e}")
         return False
 
-@app.on_message(filters.text)
+@app.on_message(filters.text & filters.group)
 async def handle_message(client, message: Message):
     user_id = message.from_user.id
     user_mention = message.from_user.mention
@@ -94,7 +93,7 @@ async def handle_message(client, message: Message):
         await upload_video(client, file_path, thumbnail_path, video_title, reply_msg, dump_id, user_mention, user_id, message)
     except Exception as e:
         logging.error(f"Error handling message: {e}")
-        await reply_msg.edit_text("ғᴀɪʟᴇᴅ ᴛᴏ ᴘʀᴏᴄᴇss ʏᴏᴜʀ ʀᴇǫᴜᴇsᴛ.\nɪғ ʏᴏᴜʀ ғɪʟᴇ sɪᴢᴇ ɪs ᴍᴏʀᴇ ᴛʜᴀɴ 120ᴍʙ ɪᴛ ᴍɪɢʜᴛ ғᴀɪʟ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ.\nᴛʜɪs ɪs ᴛʜᴇ ᴛᴇʀᴀʙᴏx ɪssᴜᴇ, sᴏᴍᴇ ʟɪɴᴋs ᴀʀᴇ ʙʀᴏᴋᴇɴ, sᴏ ᴅᴏɴᴛ ᴄᴏɴᴛᴀᴄᴛ ʙᴏᴛ's ᴏᴡɴᴇʀ")
+        await reply_msg.edit_text("ᴅᴏᴡɴʟᴏᴀᴅ ғᴀɪʟᴇᴅ❗Mᴀʏ ʙᴇ ᴅᴜᴇ ᴛᴏ ғɪʟᴇ sɪᴢᴇ ᴏʀ ᴍᴜʟᴛɪᴘʟᴇ ᴠɪᴅᴇᴏs ɪɴ ᴛʜᴇ ʟɪɴᴋ")
 
 if __name__ == "__main__":
     keep_alive()
